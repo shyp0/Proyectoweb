@@ -1,15 +1,59 @@
 .navbar-nav{
-   display: flex;
+  display: flex;
     
 }
 
 .error {
-   color: red;
-   font-size: 12px;
+  color: red;
+  font-size: 12px;
  }
 
- .logo{
-   width: 70px;
-   height: 70px;
-   
- }
+.logo{
+  width: 70px;
+  height: 70px; 
+}
+
+ul {
+  list-style: none;
+  display: flex;
+}
+
+ul li {
+  margin: 10px;
+}
+
+button {
+  border: 0;
+  background-color: white;
+}
+
+.wrap {
+  width: auto;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(src/assets/Fondotitulo.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.wrap-texto {
+  color: white;
+  text-align: center;
+  padding: 2rem 3rem;
+  border: 3px solid white;
+  box-shadow: 0 0 25px #222;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+}
+
+.container {
+  text-align: center;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+footer {
+  background-color: white;
+}

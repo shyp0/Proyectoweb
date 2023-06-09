@@ -5,20 +5,12 @@ import { Carousel } from 'react-responsive-carousel';
 class Home extends Component {
     render() {
         return (
-            <Carousel>
-            <div>
-                <img src="assets/1.png" />
-                <p className="legend">Legend 1</p>
+            <div class="wrap">
+                <div class="wrap-texto">
+                    <h1>Recetas saludables</h1>
+                    <h2>¡Te ayudamos a vivir saludablemente!</h2>
+                </div>
             </div>
-            <div>
-                <img src="assets/2.png" />
-                <p className="legend">Legend 2</p>
-            </div>
-            <div>
-                <img src="assets/3.png" />
-                <p className="legend">Legend 3</p>
-            </div>
-        </Carousel>
         )
     }
 }
