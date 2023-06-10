@@ -1,25 +1,11 @@
-.navbar-nav{
-  display: flex;
-    
-}
-
 .error {
   color: red;
   font-size: 12px;
  }
 
 .logo{
-  width: 70px;
-  height: 70px; 
-}
-
-ul {
-  list-style: none;
-  display: flex;
-}
-
-ul li {
-  margin: 10px;
+  width: 100px;
+  height: 100px; 
 }
 
 button {
@@ -45,7 +31,15 @@ button {
   border: 3px solid white;
   box-shadow: 0 0 25px #222;
   -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+footer {
+  background-color: white;
+}
+
+.person{
+  width:30px;
 }
 
 .container {
@@ -54,6 +48,109 @@ button {
   padding-bottom: 50px;
 }
 
-footer {
-  background-color: white;
+.formulario {
+  width: 400px;
+  height: 380px;
+  background: #CEFFBC;
+  margin: auto;
+  margin-top: 50px;
+  box-shadow: 7px 13px 37px black;
+  padding: 20px 50px;
+  border-top: 4px solid #82b96e;
+  color: black;
+}
+
+.formulario h5 {
+  margin: 0;
+  text-align: center;
+  height: 40px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid;
+  font-size: 20px;
+}
+.formulario a {
+  color: black;
+  font-size: 14px;
+  text-decoration: none;
+}
+.formulario p {
+  height: 40px;
+  text-align: center;
+  border-bottom: 1px solid;
+}
+
+.container-acceder{
+  height: 500px;
+}
+
+.container-registrar{
+  height: 700px;
+}
+
+.controls {
+  width: 378px;
+  border: 1px solid #82b96e;
+  margin-bottom: 15px;
+  padding: 11px 10px;
+  background: rgba(0, 0, 0, 0.177);
+  font-size: 14px;
+}
+
+.controls1 {
+  width: 300px;
+  border: 1px solid #82b96e;
+  margin-bottom: 15px;
+  padding: 11px 10px;
+  background: rgba(0, 0, 0, 0.177);
+  font-size: 14px;
+}
+
+.registrar {
+  width: 100%;
+  height: 40px;
+  background-color: #82b96e;
+  border: none;
+  color: rgba(0, 0, 0, 0.649);
+  margin-bottom: 16px;
+  align-items: center;
+  font-weight: bold;
+}
+
+.controls {
+  width: 378px;
+  border: 1px solid #82b96e;
+  margin-bottom: 15px;
+  padding: 11px 10px;
+  background: rgba(0, 0, 0, 0.177);
+  font-size: 14px;
+}
+
+.formulario2 {
+  width: 480px;
+  height: 550px;
+  background: #CEFFBC;
+  margin: auto;
+  margin-top: 50px;
+  box-shadow: 7px 13px 37px black;
+  padding: 20px 50px;
+  border-top: 4px solid #82b96e;
+  color: black;
+}
+.formulario2 h5 {
+  margin: 0;
+  text-align: center;
+  height: 40px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid;
+  font-size: 20px;
+}
+.formulario2 a {
+  color: black;
+  font-size: 14px;
+  text-decoration: none;
+}
+.formulario2 p {
+  height: 40px;
+  text-align: center;
+  border-bottom: 1px solid;
 }

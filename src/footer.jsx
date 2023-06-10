@@ -1,48 +1,27 @@
-function Footer(){
-    return(
-      <footer>
+import Card from 'react-bootstrap/Card';
+import { Link, Route, Routes } from 'react-router-dom';
+import './styles.css';
 
-        <div class="card text-center">
-
-          <div class="card-header"></div>
-
-          <div class="card-body">
-            <h5 class="card-title">Menú</h5>
-            <hr size="3px" color="black"/>
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="recetas.html">Recetas</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Sobre nosotros</a>
-              </li>
-            </ul>
-
-            <div class="rrss">
-              <button>
-                <img src="src/assets/Icon-fb.png" width="20px" height="20px"></img>
-              </button>
-              <button>
-                <img src="src/assets/Icon-wsp.png" width="20px" height="20px"></img>
-              </button>
-              <button>
-                <img src="src/assets/Icon-ig.png" width="20px" height="20px"></img>
-              </button>
-            </div>
-
-          </div>
-
-          <div class="card-footer text-body-secondary">
-            Ⓒ Recetas saludables
-          </div>
-          
-        </div>
-
-      </footer>
-      
-    );
+function Footer() {
+  return (
+    <Card className="text-center">
+      <Card.Header>Menú</Card.Header>
+      <Card.Body>
+        <ul class="nav flex-column">
+          <li>
+            <Card.Link style={{textDecoration: "none"}} href="/">Inicio</Card.Link>
+          </li>
+          <li class="nav-item">
+            <Card.Link style={{textDecoration: "none"}} href="/recetas">Recetas</Card.Link>
+          </li>
+          <li class="nav-item">
+            <Card.Link style={{textDecoration: "none"}} href="/sobrenosotros">Sobre nosotros</Card.Link>
+          </li>
+        </ul>
+      </Card.Body>
+      <Card.Footer className="text-muted">Ⓒ Recetas saludables</Card.Footer>
+    </Card>
+  );
 }
+
 export default Footer;

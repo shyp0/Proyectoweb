@@ -1,4 +1,63 @@
-import React from 'react';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
+function NavScrollExample() {
+  return (
+    <Navbar bg="lg" expand="lg">
+      <Container fluid>
+        <Navbar.Brand href="#"><img class="logo" src="src/assets/Logo.png"></img></Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: '100px' }}
+            navbarScroll
+          >
+            <Nav.Link href="/">Inicio</Nav.Link>
+            <Nav.Link href="/"></Nav.Link>
+            <NavDropdown title="Recetas" id="navbarScrollingDropdown">
+              <NavDropdown.Item href="#action3">Nivel fácil</NavDropdown.Item>
+              <NavDropdown.Item href="#action4">Nivel medio</NavDropdown.Item>
+              <NavDropdown.Item href="#action5">Nivel difícil</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/recetas">
+                Ver todas las recetas
+              </NavDropdown.Item>
+            </NavDropdown>
+            <Nav.Link href="/dietas">Dietas</Nav.Link>
+            <Nav.Link href="/sobrenosotros">Sobre nosotros</Nav.Link>
+          </Nav>
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Buscar"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button variant="outline-success">Buscar</Button>
+          </Form>
+
+          <img class="person" src="src/assets/person.png"></img>
+          <NavDropdown id="navbarScrollingDropdown">
+              <NavDropdown.Item href="/acceso">Acceder</NavDropdown.Item>
+              <NavDropdown.Item href="/registro">Crear cuenta</NavDropdown.Item>
+              <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>
+              <NavDropdown.Item href="/comersaludable">¿Por qué comer sano?</NavDropdown.Item>
+          </NavDropdown>
+
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+}
+
+export default NavScrollExample;
+
+/*import React from 'react';
 import {Link} from 'react-router-dom';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -67,4 +126,4 @@ function Header(){
 
   );
 }
-export default Header;
+export default Header;*/
