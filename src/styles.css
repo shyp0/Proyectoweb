@@ -115,7 +115,13 @@ footer {
   align-items: center;
   font-weight: bold;
 }
+.error:not(:placeholder-shown) {
+  border: 1px solid red !important;
+}
 
+.success:not(:placeholder-shown) {
+  border: 1px solid green !important;
+}
 .controls {
   width: 378px;
   border: 1px solid #82b96e;
@@ -123,6 +129,13 @@ footer {
   padding: 11px 10px;
   background: rgba(0, 0, 0, 0.177);
   font-size: 14px;
+}
+.controls.error {
+  border: 1px solid red;
+}
+
+.controls.success {
+  border: 1px solid green;
 }
 
 .formulario2 {
