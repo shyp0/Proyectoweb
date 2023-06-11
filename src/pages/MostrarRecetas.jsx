@@ -1,5 +1,6 @@
 import Recetas from '../assets/recetas.json'
 import Button from 'react-bootstrap/Button';
+import {Link} from 'react-router-dom';
 
 function MostrarRecetas(){
     return(
@@ -14,7 +15,7 @@ function MostrarRecetas(){
                 Recetas && Recetas.map( recetas => {
                     return(
                         <div key={ recetas.id }>
-
+                            
                             <div class="row row-cols-1 row-cols-md-2 g-4" style={{paddingTop: "none", padding: "40px"}}>
                                 <div class="col">
                                     <div class="card">
@@ -24,7 +25,7 @@ function MostrarRecetas(){
                                             <p class="card-text" style={{textAlign: "center"}}>{recetas.descripcion}</p>
                                         </div>
                                         <div class="d-grid gap-2 d-md-block" style={{textAlign: "center"}}>
-                                            <Button href="/detallereceta" variant="success" style={{width: "100px"}}>Ver receta</Button>{' '}
+                                            <Button variant="success" href={`/detallereceta?id=${recetas.id}`}>Ver receta</Button>
                                         </div>
                                         <br/>
                                     </div>
