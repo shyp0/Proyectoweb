@@ -15,7 +15,7 @@ function DetalleReceta() {
 
     if (receta_encontrada != "") {
         return (
-            <div style={{textAlign: "center"}}>
+            <div style={{display: "flex", justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
 
                 <div class="container" style={{textAlign: "center"}}>
                     <div>
@@ -31,7 +31,7 @@ function DetalleReceta() {
                 <div class="card mb-3" style={{ maxWidth: "800px"}}>
                     <br />
                     <div class="row g-0">
-                        <div class="col-md-12">
+                        <div class="col-md-12" style={{display: "flex", justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
                             <img src={receta_encontrada.imagen} alt="..." style={{ maxWidth: "800px"}}></img>
                             <p><small class="text-body-secondary">Valoración: </small></p>
                         </div>

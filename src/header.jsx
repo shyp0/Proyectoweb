@@ -9,7 +9,7 @@ function NavScrollExample() {
   return (
     <Navbar bg="lg" expand="lg">
       <Container fluid>
-        <Navbar.Brand href="#"><img class="logo" src="src/assets/Logo.png"></img></Navbar.Brand>
+        <Navbar.Brand href="/"><img class="logo" src="src/assets/Logo.png"></img></Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -42,7 +42,7 @@ function NavScrollExample() {
           </Form>
 
           <img class="person" src="src/assets/person.png"></img>
-          <NavDropdown id="navbarScrollingDropdown">
+          <NavDropdown id="navbarScrollingDropdown" styles={{display:"end"}}>
               <NavDropdown.Item href="/acceso">Acceder</NavDropdown.Item>
               <NavDropdown.Item href="/registro">Crear cuenta</NavDropdown.Item>
               <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>

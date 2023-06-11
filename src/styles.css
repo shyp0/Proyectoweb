@@ -23,7 +23,9 @@ button {
   background-size: cover;
   background-position: center;
 }
-
+body{
+  background-color: #a0d68c;
+}
 .wrap-texto {
   color: white;
   text-align: center;
@@ -32,6 +34,9 @@ button {
   box-shadow: 0 0 25px #222;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+}
+nav{
+  background-color: white;
 }
 
 footer {
@@ -115,7 +120,7 @@ footer {
   align-items: center;
   font-weight: bold;
 }
-.error:not(:placeholder-shown) {
+.error {
   border: 1px solid red !important;
 }
 

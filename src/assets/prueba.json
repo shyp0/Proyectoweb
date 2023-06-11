@@ -1,0 +1,33 @@
+
+
+{
+    "recetas":[
+        {
+            "id": 1,
+            "nombre_receta":"ENSALADA CON NARANAJA, QUESO Y PISTACHOS",
+            "descripcion": "Empezamos con unas ensaladas para seguir con cremas, platos para mejorar la salud con huevos, pasta, carne, verduras y pescados. ¡Ah! Y nos olvidamos de los postres. Esta ensalada con naranja, queso de cabra y pistachos, estos aportan vitamina, minerales y proteínas. Si no tienes, sustitúyelos por otro fruto seco.",
+            "ingredientes":[
+                {"nombre_ing": "200 gramos de escarola"},
+                {"nombre_ing": "50 gramos de rúcula (sustituye escarola y rúcula por la lechuga que tengas)"},
+                {"nombre_ing": "2 nar  anjas"},
+                {"nombre_ing": "300 gramos de rulo de queso de cabra (rebaja calorías con queso fresco)"},
+                {"nombre_ing": "50 gramos de pistachos"},
+                {"nombre_ing": "5 cucharadas de aceite de oliva virgen"},
+                {"nombre_ing": "1 cucharada de vinagre de jerez"},
+                {"nombre_ing": "Cebollino (opcional)"},
+                {"nombre_ing": "Sal"}
+            ],
+            "preparacion":[
+                {"pasos": "Paso 1. Trocea, lava y seca la escarola. Lava y seca la rúcula."},
+                {"pasos": "Paso 2. Corta una naranja y media en gajos y retira la piel. Exprime la mitad restante para extraer el zumo."},
+                {"pasos": "Paso 3. Lava, seca y pica el cebollino."},
+                {"pasos": "Paso 4. Pela y pica los pistachos."},
+                {"pasos": "Paso 5. Prepara la vinagreta mezclando cuatro cucharadas de aceite con el vinagre, dos cucharadas de zumo de naranja, una pizca de sal y dos cucharadas de cebollino picado."},
+                {"pasos": "Paso 6. Retira la corteza del rulo de queso de cabra, corta el queso en trozos, úntate las manos con aceite para formar bolitas y rebózalas con los pistachos picados."},
+                {"pasos": "Paso 7. Reparte los ingredientes en los platos y aliña con la vinagreta."}
+            ],
+            "imagen": "src/assets/receta1.jpg"
+        }
+    
+    ]
+}
