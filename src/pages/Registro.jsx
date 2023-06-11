@@ -77,7 +77,7 @@ const Formulario = () => {
                     <Form.Control class="controls" className={errors.confirmarContrasena ? 'controls error' : 'controls success'} type="password" placeholder="Repetir contraseña" id="recontrasena" name="recontrasena" onChange={(e)=>setConfirmarContrasena(e.target.value)}/>
                     {errors.confirmarContrasena && <span>{errors.confirmarContrasena}</span>}
                 </Form.Group>
-                <Button class="registrar" onClick={validarFormulario} >Registrar</Button>{' '}
+                <Button className="registrar" onClick={validarFormulario} >Registrar</Button>{' '}
             </Form>
         </div>
     </div>

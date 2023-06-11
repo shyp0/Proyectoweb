@@ -16,7 +16,7 @@ function Acceso() {
                         <Form.Label></Form.Label>
                         <Form.Control class="controls1" type="password" placeholder="Contraseña" />
                     </Form.Group>
-                    <Button class="registrar">Ingresar</Button>{' '}
+                    <Button className="registrar">Ingresar</Button>{' '}
                     <p class="contraseña">
                         <a href="#">¿Has olvidado tu contraseña?</a>
                     </p>

@@ -24,7 +24,7 @@ function NavScrollExample() {
               <NavDropdown.Item href="#action4">Nivel medio</NavDropdown.Item>
               <NavDropdown.Item href="#action5">Nivel difícil</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="/recetas">
+              <NavDropdown.Item href="/mostrarrecetas">
                 Ver todas las recetas
               </NavDropdown.Item>
             </NavDropdown>

@@ -13,12 +13,13 @@ import Home from './pages/Home';
 import Galeria from './pages/Galeria';
 import Inicio from './pages/Inicio';
 import Dietas from './pages/Dietas';
-import Recetas from './pages/Recetas';
+import MostrarRecetas from './pages/MostrarRecetas';
 import Acceso from './pages/Acceso';
 import Registro from './pages/Registro';
 import PublicarReceta from './pages/PublicarReceta';
 import Sobrenosotros from './pages/Sobrenosotros';
 import ComerSaludable from './pages/ComerSaludable';
+import DetalleReceta from './pages/DetalleReceta';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
@@ -30,12 +31,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                     <Route path="/fotos" element={<Galeria />} />
                     <Route path="/inicioSesion" element={<Inicio />} />
                     <Route path="/dietas" element={<Dietas />} />
-                    <Route path="/recetas" element={<Recetas />} />
+                    <Route path="/mostrarrecetas" element={<MostrarRecetas />} />
                     <Route path="/acceso" element={<Acceso />} />
                     <Route path="/registro" element={<Registro />} />
                     <Route path="/publicarreceta" element={<PublicarReceta />} />
                     <Route path="/sobrenosotros" element={<Sobrenosotros />} />
                     <Route path="/comersaludable" element={<ComerSaludable />} />
+                    <Route path="/detallereceta" element={<DetalleReceta />} />
         	</Routes>
            
           </BrowserRouter>

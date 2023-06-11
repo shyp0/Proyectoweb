@@ -1,5 +1,4 @@
 import Card from 'react-bootstrap/Card';
-import { Link, Route, Routes } from 'react-router-dom';
 import './styles.css';
 
 function Footer() {
@@ -12,7 +11,7 @@ function Footer() {
             <Card.Link style={{textDecoration: "none"}} href="/">Inicio</Card.Link>
           </li>
           <li class="nav-item">
-            <Card.Link style={{textDecoration: "none"}} href="/recetas">Recetas</Card.Link>
+            <Card.Link style={{textDecoration: "none"}} href="/mostrarrecetas">Recetas</Card.Link>
           </li>
           <li class="nav-item">
             <Card.Link style={{textDecoration: "none"}} href="/sobrenosotros">Sobre nosotros</Card.Link>

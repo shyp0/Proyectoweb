@@ -1,8 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.js";
 import "../styles.css";
 
 function Dietas() {
@@ -47,25 +43,25 @@ function Dietas() {
         <div class="col">
           <div class="card">
             <img src="src/assets/dieta-flexible.jpg" class="card-img-top" alt="..."></img>
-              <div class="card-body">
-                <h5 class="card-title">Dieta flexible</h5>
-                <p class="card-text">
-                  La dieta flexible no implica comer lo que tengamos deseos en cantidades ilimitadas, sino que implica no erradicar ningún alimento de la dieta y en el marco de
-                  una alimentación variada, incluir alimentos placenteros.
-                </p>
-              </div>
+            <div class="card-body">
+              <h5 class="card-title">Dieta flexible</h5>
+              <p class="card-text">
+                La dieta flexible no implica comer lo que tengamos deseos en cantidades ilimitadas, sino que implica no erradicar ningún alimento de la dieta y en el marco de
+                una alimentación variada, incluir alimentos placenteros.
+              </p>
+            </div>
           </div>
         </div>
         <div class="col">
           <div class="card">
             <img src="src/assets/dieta-vegetariana.jpg" class="card-img-top" alt="..."></img>
-              <div class="card-body">
-                <h5 class="card-title">Dieta vegetariana</h5>
-                <p class="card-text">
-                  La dieta vegetariana defiende únicamente el consumo de productos de origen vegetal, basando la alimentación en el consumo de legumbres, frutas, verduras u hortalizas
-                  eliminando así cualquier producto de origen animal.
-                </p>
-              </div>
+            <div class="card-body">
+              <h5 class="card-title">Dieta vegetariana</h5>
+              <p class="card-text">
+                La dieta vegetariana defiende únicamente el consumo de productos de origen vegetal, basando la alimentación en el consumo de legumbres, frutas, verduras u hortalizas
+                eliminando así cualquier producto de origen animal.
+              </p>
+            </div>
           </div>
         </div>
       </div>
