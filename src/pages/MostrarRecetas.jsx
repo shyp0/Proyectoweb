@@ -16,7 +16,7 @@ function MostrarRecetas(){
                     return(
                         <div key={ recetas.id }>
                             
-                            <div class="row row-cols-1 row-cols-md-2 g-4" style={{paddingTop: "none", padding: "40px"}}>
+                            <div class="row row-cols-1 row-cols-md-2 g-4" style={{paddingTop: "none", padding: "40px",display: "flex", justifyContent:"center",alignItems:"center",flexDirection:"column"}} >
                                 <div class="col">
                                     <div class="card">
                                         <img src={recetas.imagen} class="card-img-top" alt=""></img>
