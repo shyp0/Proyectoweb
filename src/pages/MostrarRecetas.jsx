@@ -27,7 +27,7 @@ function MostrarRecetas() {
           <div className="row row-cols-1 row-cols-md-2 g-4" style={{paddingTop: "none", padding: "40px",display: "flex", justifyContent:"center",alignItems:"center",flexDirection:"column"}} >
             <div className="col">
               <div className="card">
-                <img src={receta.imagen} className="card-img-top" alt=""></img>
+                <img src={receta.imagen_url} className="card-img-top" alt=""></img>
                 <div className="card-body">
                   <h5 className="card-title" style={{textAlign: "center"}}>{receta.nombre}</h5>
                   <p className="card-text" style={{textAlign: "center"}}>{receta.descripcion}</p>

@@ -103,9 +103,10 @@ app.put("/agregarReceta",(req, res) => {
     let descripcion=req.body.descripcion;
     let ingredientes=req.body.ingredientes;
     let preparacion=req.body.preparacion;
+    let imagenUrl = req.body.imagen_url;
 
-    connection.query("insert into recetas (nombre, descripcion, ingredientes, preparacion) VALUES (?,?,?,?)",
-    [nombre, descripcion, ingredientes, preparacion], (error, results) => {
+    connection.query("insert into recetas (nombre, descripcion, ingredientes, preparacion, imagen_url) VALUES (?,?,?,?,?)",
+    [nombre, descripcion, ingredientes, preparacion, imagenUrl], (error, results) => {
         if(error){
             console.error(error);
             res.status(500).send("Error insertando en el server :(");

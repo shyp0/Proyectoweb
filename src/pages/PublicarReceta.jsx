@@ -68,6 +68,7 @@ const Formulariorecetas = () => {
       descripcion: descripcion_receta,
       ingredientes: [ingredientes],
       preparacion: [preparacion],
+      imagen_url: imagen,
       /* falta guardar la imagen de la receta */
     };
   
