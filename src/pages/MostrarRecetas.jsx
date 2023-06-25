@@ -29,7 +29,7 @@ function MostrarRecetas() {
               <div className="card">
                 <img src={receta.imagen} className="card-img-top" alt=""></img>
                 <div className="card-body">
-                  <h5 className="card-title" style={{textAlign: "center"}}>{receta.nombre_receta}</h5>
+                  <h5 className="card-title" style={{textAlign: "center"}}>{receta.nombre}</h5>
                   <p className="card-text" style={{textAlign: "center"}}>{receta.descripcion}</p>
                 </div>
                 <div className="d-grid gap-2 d-md-block" style={{textAlign: "center"}}>

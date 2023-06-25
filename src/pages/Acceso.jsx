@@ -1,58 +1,71 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import '../styles.css';
-import React, { useState } from 'react';
-import axios from 'axios'
+import React, { useState,useRef} from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 
 const Acceso=() => {
-
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [contrasena, setContrasena] = useState('');
     const [errors, setErrors] = useState({});
+    const formRef = useRef(null);
 
+ 
     const validarFormulario = (e) => {
         e.preventDefault();
-
-        const errores = {};
-        const jsonFilePath = 'src/assets/login.json';
-        const jsonData = async()=>{ 
-            let data=await axios.get(jsonFilePath);
-            data=data.data;
-            console.log(data);
-            const verificacion = {
-              "email": data.cuentas.slice(-1)[0].nombre,
-              "contrasena" : data.cuentas.slice(-1)[0].contrasena,
-           };
-
-        //    console.log(verificacion.email);
-        //    console.log(verificacion.contrasena);
+        
+        const errors={};
         if (!email) {
-            errores.email = 'Debes Ingresar un email';
-          } else if (email !== verificacion.email) {
-            errores.email = 'El email no coincide';
-        }
+            errors.email = 'Debes Ingresar un email';
+          } 
         if (!contrasena) {
-            errores.contrasena = 'Debes ingresar una contraseña';
-          } else if (contrasena !== verificacion.contrasena) {
-            errores.contrasena = 'La contraseña no coincide';
-        }
+            errors.contrasena = 'Debes ingresar una contraseña';
+          } 
         
-        setErrors(errores);
+        setErrors(errors);
     
-        if (Object.keys(errores).length === 0) {
-          // Realizar la lógica de envío del formulario
-          console.log('Formulario válido');
+        if (Object.keys(errors).length === 0) {
+            // Realizar la lógica de envío del formulario
+            const data = {
+              email: email,
+              contrasena: contrasena,
+        };
+            axios.post('http://localhost:3000/validar', data)
+            .then(response => {
+              const data = response.data;
+
+              if (data.mensaje === true) {
+                // Las credenciales son válidas
+                alert('Credenciales válidas');
+                navigate('/');
+              } else {
+                // Las credenciales son inválidas
+                alert('Credenciales inválidas');
+                formRef.current.reset();
+              }
+            })
+            .catch(error => {
+              console.error(error);
+            });
         }
-    }; 
-        jsonData();
         
-}    
+    }; 
+    // useEffect(() => {
+    //     if (isLoggedIn) {
+    //       history.push('/'); // Redirigir a la página principal (Home)
+    //     }
+    //   }, [isLoggedIn, history]);
+        
+ 
       
     //   jsonData();
     return (
-        <div class="container-acceder">
-            <div class="formulario">
-                <Form name="acceso" id="acceso">
+        <div className="container-acceder">
+            <div className="formulario">
+                <Form name="acceso" id="acceso" ref={formRef}>
                     <h5>Iniciar sesión</h5>
                     <Form.Group className="mb-3" >
                         <Form.Label></Form.Label>
@@ -65,7 +78,7 @@ const Acceso=() => {
                         {errors.contrasena && <span>{errors.contrasena}</span>}
                     </Form.Group>
                     <Button className="registrar" onClick={validarFormulario}>Ingresar</Button>{' '}
-                    <p class="contraseña">
+                    <p className="contraseña">
                         <a href="#">¿Has olvidado tu contraseña?</a>
                     </p>
                 </Form>

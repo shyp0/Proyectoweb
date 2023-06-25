@@ -1,8 +1,9 @@
 const express = require("express");
 const mysql = require("mysql");
 //const bcrypt = require("bcrypt");
-const cors = require("cors")
-
+const cors = require("cors");
+const bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
 const app = express();
 const PORT = 3000;
 
@@ -119,6 +120,51 @@ app.put("/agregarReceta",(req, res) => {
         }
     })
 
+});
+/* se inserta una cuenta en la base de datos */
+app.put("/registro",(req, res) => {
+    console.log("valor de req.body: ", req.body);
+    let nombre=req.body.nombre;
+    let apellido=req.body.apellido;
+    let email=req.body.email;
+    let contrasena=req.body.contrasena;
+
+    connection.query("insert into usuarios (nombre, apellido, email, contrasena) VALUES (?,?,?,?)",
+    [nombre, apellido, email, contrasena], (error, results) => {
+        if(error){
+            console.error(error);
+            res.status(500).send("Error insertando en el server :(");
+        }
+        else{
+            const response = {
+                status: 'Exito',
+                message: 'Se insertaron los datos bien',
+                data: results
+            }
+            res.status(200).json(response);
+        }
+    })
+
+});
+app.post("/validar",jsonParser,(req, res) => {
+    console.log("valor de req.body: ", req.body);
+    let email=req.body.email;
+    let contrasena=req.body.contrasena;
+
+    connection.query("select * from usuarios where email=? and contrasena =?", [email,contrasena], function(error, results) {
+        if(error){
+            console.error(error);
+            res.status(500).send({ mensaje: "Error en la consulta", resultados: [] });
+            return;
+        }
+        else{
+            if (results.length > 0) {
+                res.send({ mensaje: true, resultados: results });
+            } else {
+              res.send({ mensaje: false, resultados: [] });
+            }
+        }
+    })
 });
 
 app.listen(

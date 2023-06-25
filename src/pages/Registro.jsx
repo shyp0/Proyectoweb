@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import '../styles.css';
+import axios from 'axios';
 
 const Formulario = () => {
   const [nombre, setNombre] = useState('');
@@ -43,13 +44,34 @@ const Formulario = () => {
 
     if (Object.keys(errores).length === 0) {
       // Realizar la lógica de envío del formulario
+      guardarDatos();
       console.log('Formulario válido');
+    }
+  };
+  // e.preventDefault();
+  const guardarDatos = async () => {
+    const url = 'http://localhost:3000/registro'; // Reemplaza con la URL correcta de tu backend
+
+    const newUser = {
+      nombre: nombre,
+      email: email,
+      apellido: [apellido],
+      contrasena: [contrasena],
+      /* falta guardar la imagen de la receta */
+    };
+  
+    try {
+      const response = await axios.put(url, newUser);
+      console.log('Usuario guardado con éxito:', response.data);
+      alert('¡Los datos del usuario se han guardado correctamente!')
+    } catch (error) {
+      console.error('Error al guardar la receta:', error);
     }
   };
 
   return (
-    <div class="container-registrar">
-        <div class="formulario2">
+    <div className="container-registrar">
+        <div className="formulario2">
             <Form name="registro" id="registro">
                 <h5>Crear cuenta</h5>
                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
