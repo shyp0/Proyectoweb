@@ -28,20 +28,20 @@ const Formulariorecetas = () => {
 
     if (!descripcion_receta) {
       errores.descripcion_receta = 'La descripcion de la receta es obligatoria';
-    } else if (descripcion_receta.length > 256) {
-        errores.descripcion_receta = 'La descripcion debe tener menos de 256 caracteres';
+    } else if (descripcion_receta.length > 500) {
+        errores.descripcion_receta = 'La descripcion debe tener menos de 500 caracteres';
     }
 
     if (!ingredientes) {
       errores.ingredientes = 'Los ingredientes son obligatorios';
-    } else if (ingredientes.length > 256) {
-        errores.ingredientes = 'La descripcion de ingredientes debe tener menos de 256 caracteres';
+    } else if (ingredientes.length > 500) {
+        errores.ingredientes = 'La descripcion de ingredientes debe tener menos de 500 caracteres';
     }
 
     if (!preparacion) {
       errores.preparacion = 'La prepraracion es obligatoria';
-    } else if (preparacion.length > 256) {
-      errores.preparacion = 'La descripcion de la preparacion debe tener menos de 256 caracteres';
+    } else if (preparacion.length > 1000) {
+      errores.preparacion = 'La descripcion de la preparacion debe tener menos de 1000 caracteres';
     }
     if (!dificultad) {
         errores.dificultad = 'Debes seleccionar al menos un nivel de receta';
@@ -54,92 +54,79 @@ const Formulariorecetas = () => {
 
     if (Object.keys(errores).length === 0) {
       // Realizar la lógica de envío del formulario
-      guardarDatosEnJSON();
+      guardarDatos(); //
       console.log('Formulario válido');
     }
     
   };
     // e.preventDefault();
-  const guardarDatosEnJSON = () => {
-      const jsonFilePath = 'src/assets/prueba.json';
+    const guardarDatos = async () => {
+    const url = 'http://localhost:3000/agregarReceta'; // Reemplaza con la URL correcta de tu backend
 
-      const jsonData = async()=>{ 
-        let data=await axios.get(jsonFilePath);
-        data=data.data;
-        console.log(data);
-        const newReceta = {
-          "id": data.recetas.slice(-1)[0].id+1,
-          "nombre_receta" : nombre_receta,
-          "descripcion" : descripcion_receta,
-          "ingredientes" : [{"nombre_ing":ingredientes}],
-          "preparacion" : [{"pasos":preparacion}],
-          "imagen" : imagen,
-       };
-      //  console.log(data.recetas.slice(-1)[0].id+1)
-      //  console.log(newReceta);
-       data.recetas.push(newReceta);
-      }
-      jsonData();
-      
-
-      
-     
-
-};
+    const newReceta = {
+      nombre: nombre_receta,
+      descripcion: descripcion_receta,
+      ingredientes: [ingredientes],
+      preparacion: [preparacion],
+      /* falta guardar la imagen de la receta */
+    };
   
+    try {
+      const response = await axios.put(url, newReceta);
+      console.log('Receta guardada con éxito:', response.data);
+      alert('¡Los datos de la receta se han guardado correctamente!')
+    } catch (error) {
+      console.error('Error al guardar la receta:', error);
+    }
+  };
 
-
-  
   return (
-    <div class="container">
-        <h1>Publicar receta</h1>
-        <h4>
-            Puedes publicar la receta que deseas, ¡siempre y cuando sea saludable!
-        </h4>
-        <br></br><br></br>
-        <Form id='publicarreceta' name='publicarreceta'>
-            <Form.Group className="mb-3" >
-                <Form.Label>Nombre de la receta</Form.Label>
-                <Form.Control type="text" className={errors.nombre_receta ? 'error' : 'success'} placeholder="Ingrese nombre de la receta" id="nombre_receta" onChange={(e)=> setNombre_receta(e.target.value)} />
-                {errors.nombre_receta && <span>{errors.nombre_receta}</span>}
-            </Form.Group>
-            <Form.Group className="mb-3"  >
-                <Form.Label>Descripción de la receta</Form.Label>
-                <Form.Control as="textarea" className={errors.descripcion_receta ? 'error' : 'success'} rows={3} placeholder="Ingrese descripción de la receta" id="descripcion_receta" onChange={(e)=> setDescripcion_receta(e.target.value)}/>
-                {errors.descripcion_receta && <span>{errors.descripcion_receta}</span>}
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Ingredientes</Form.Label>
-                <Form.Control as="textarea" className={errors.ingredientes ? 'error' : 'success'} rows={3} placeholder="Ingrese los ingredientes de la receta" id="ingredientes_receta" onChange={(e)=> setIngredientes(e.target.value)}/>
-                {errors.ingredientes && <span>{errors.ingredientes}</span>}
-            </Form.Group>
-            <Form.Group className="mb-3" >
-                <Form.Label>Preparación</Form.Label>
-                <Form.Control as="textarea" className={errors.preparacion ? 'error' : 'success'} rows={3} placeholder="Ingrese la elaboración paso a paso de la receta" id="preparacion:receta" onChange={(e)=> setPreparacion(e.target.value)}/>
-                {errors.preparacion && <span>{errors.preparacion}</span>}
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>Nivel de receta</Form.Label>                
-                    <Form.Select value={dificultad} className={errors.dificultad ? 'error' : ''} onChange={(e)=> setDificultad(e.target.value)}>
-                        <option value=""> seleccione nivel de receta</option>
-                        <option value="facil">Nivel fácil</option>
-                        <option value="medio">Nivel medio</option>
-                        <option value="dificil">Nivel difícil</option>
-                    </Form.Select>
-                    {errors.dificultad && <span>{errors.dificultad}</span>}
-            </Form.Group>
-            <Form.Group controlId="formFileMultiple" className="mb-3">
-                <Form.Label>Selecione una(s) foto(s) de la receta</Form.Label>
-                <Form.Control type="file" className={errors.files ? 'error' : ''} multiple onChange={(e)=> setImagen(e.target.value)}/>
-                {errors.imagen && <span>{errors.imagen}</span>}
-            </Form.Group>
-            <Button variant="success" onClick={validarFormulariorecetas}>Publicar receta</Button>{' '}
-        </Form>
-        
-    
+    <div className="container">
+      <h1>Publicar receta</h1>
+      <h4>
+          Puedes publicar la receta que deseas, ¡siempre y cuando sea saludable!
+      </h4>
+      <br></br><br></br>
+      <Form id='publicarreceta' name='publicarreceta'>
+          <Form.Group className="mb-3" >
+              <Form.Label>Nombre de la receta</Form.Label>
+              <Form.Control type="text" className={errors.nombre_receta ? 'error' : 'success'} placeholder="Ingrese nombre de la receta" id="nombre_receta" onChange={(e)=> setNombre_receta(e.target.value)} />
+              {errors.nombre_receta && <span>{errors.nombre_receta}</span>}
+          </Form.Group>
+          <Form.Group className="mb-3"  >
+              <Form.Label>Descripción de la receta</Form.Label>
+              <Form.Control as="textarea" className={errors.descripcion_receta ? 'error' : 'success'} rows={3} placeholder="Ingrese descripción de la receta" id="descripcion_receta" onChange={(e)=> setDescripcion_receta(e.target.value)}/>
+              {errors.descripcion_receta && <span>{errors.descripcion_receta}</span>}
+          </Form.Group>
+          <Form.Group className="mb-3">
+              <Form.Label>Ingredientes</Form.Label>
+              <Form.Control as="textarea" className={errors.ingredientes ? 'error' : 'success'} rows={3} placeholder="Ingrese los ingredientes de la receta" id="ingredientes_receta" onChange={(e)=> setIngredientes(e.target.value)}/>
+              {errors.ingredientes && <span>{errors.ingredientes}</span>}
+          </Form.Group>
+          <Form.Group className="mb-3" >
+              <Form.Label>Preparación</Form.Label>
+              <Form.Control as="textarea" className={errors.preparacion ? 'error' : 'success'} rows={3} placeholder="Ingrese la elaboración paso a paso de la receta" id="preparacion_receta" onChange={(e)=> setPreparacion(e.target.value)}/>
+              {errors.preparacion && <span>{errors.preparacion}</span>}
+          </Form.Group>
+          <Form.Group className="mb-3">
+              <Form.Label>Nivel de receta</Form.Label>                
+                  <Form.Select value={dificultad} className={errors.dificultad ? 'error' : ''} onChange={(e)=> setDificultad(e.target.value)}>
+                      <option value=""> seleccione nivel de receta</option>
+                      <option value="facil">Nivel fácil</option>
+                      <option value="medio">Nivel medio</option>
+                      <option value="dificil">Nivel difícil</option>
+                  </Form.Select>
+                  {errors.dificultad && <span>{errors.dificultad}</span>}
+          </Form.Group>
+          <Form.Group controlId="formFileMultiple" className="mb-3">
+              <Form.Label>Selecione una(s) foto(s) de la receta</Form.Label>
+              <Form.Control type="file" className={errors.files ? 'error' : ''} multiple onChange={(e)=> setImagen(e.target.value)}/>
+              {errors.imagen && <span>{errors.imagen}</span>}
+          </Form.Group>
+          <Button variant="success" className="submit" onClick={validarFormulariorecetas}>Publicar receta</Button>{' '}
+      </Form>
     </div>
-    
-);
+  );
     
 };
 
