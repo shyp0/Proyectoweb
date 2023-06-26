@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import '../styles.css';
-import React, { useState,useRef} from 'react';
+import React, { useState,useRef,useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,21 @@ const Acceso=() => {
     const [errors, setErrors] = useState({});
     const formRef = useRef(null);
 
- 
+    axios.defaults.withCredentials=true;
+    useEffect(() => {
+      axios.get('http://localhost:3000')
+          .then(res => {
+              if (res.data.valid) {
+                  navigate('/');
+                  
+              }else{
+                  navigate('/Acceso'); // Reemplaza '/some-route' por la ruta a la que deseas navegar
+              }
+          })
+          .catch(error => {
+              console.log(error);
+          });
+    }, [navigate]);
     const validarFormulario = (e) => {
         e.preventDefault();
         

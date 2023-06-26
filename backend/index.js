@@ -1,15 +1,41 @@
-const express = require("express");
-const mysql = require("mysql");
+// const express = require("express");
+import express from 'express'
+// const mysql = require("mysql");
+import mysql from 'mysql'
+import cors from 'cors'
+import bodyParser from 'body-parser'
 //const bcrypt = require("bcrypt");
-const cors = require("cors");
-const bodyParser = require('body-parser');
+// const cors = require("cors");
+// const bodyParser = require('body-parser');
 var jsonParser = bodyParser.json();
+import jwt from 'jsonwebtoken'
+import session from 'express-session'
+// const jwt = require('jsonwebtoken');
+// const session = require("express-session");
+// const cookieParser = require("cookie-parser");
+import cookieParser from 'cookie-parser'
+
+
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(cors());
-
+app.use(cors({
+    origin:["http://localhost:5173"],
+    methods: ["POST","GET"],
+    credentials:true
+}));
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(session({
+    secret: 'secret',
+    resave:false,
+    saveUnitialized:false,
+    cookie:{
+        secure:false,
+        maxAge:1000 *60 *60 *24
+    }
+}))
 const connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -20,7 +46,7 @@ const connection = mysql.createConnection({
 
 connection.connect(function(error) {
     if (error) {
-      console.error('Error conectando a la DB ' + err.stack);
+      console.error('Error conectando a la DB ' + error.stack);
       return;
     }
     console.log('Conexión establecida' + connection.threadId);
@@ -122,6 +148,15 @@ app.put("/agregarReceta",(req, res) => {
     })
 
 });
+
+app.get('/', (req,res) => {
+    if(req.session.email){
+        return res.json({valid:true,email:req.session.email})
+    }
+    else{
+        return res.json({valid:false}) 
+    }
+})
 /* se inserta una cuenta en la base de datos */
 app.put("/registro",(req, res) => {
     console.log("valor de req.body: ", req.body);
@@ -151,7 +186,7 @@ app.post("/validar",jsonParser,(req, res) => {
     console.log("valor de req.body: ", req.body);
     let email=req.body.email;
     let contrasena=req.body.contrasena;
-
+    
     connection.query("select * from usuarios where email=? and contrasena =?", [email,contrasena], function(error, results) {
         if(error){
             console.error(error);
@@ -160,7 +195,10 @@ app.post("/validar",jsonParser,(req, res) => {
         }
         else{
             if (results.length > 0) {
-                res.send({ mensaje: true, resultados: results });
+                req.session.email = results[0].email
+                console.log(req.session.email);
+                const token = jwt.sign({ email: email }, 'secreto', { expiresIn: '1h' });
+                res.send({ mensaje: true, resultados: results, token: token });
             } else {
               res.send({ mensaje: false, resultados: [] });
             }
