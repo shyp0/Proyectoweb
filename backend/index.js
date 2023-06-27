@@ -1,5 +1,6 @@
 // const express = require("express");
 import express from 'express'
+import session from 'express-session'
 
 import mysql from 'mysql'
 import cors from 'cors'
@@ -166,14 +167,17 @@ const verifyUser = (req,res,next)=>{
             if(error){
                 return res.json({Message: "Autentication error"})
             }else{
-                req.email=decoded.email;
+                req.mail=decoded.mail;
                 next();
             }
         })
     }
 }
 app.get('/', verifyUser,(req,res) => {
-    return res.json({Status:"success", email:req.email})
+    return res.json({
+        Status:"success",
+        email:req.mail,
+    }); //
 })
 
 /* se inserta una cuenta en la base de datos */
@@ -235,7 +239,7 @@ app.post("/validar",jsonParser,(req, res) => {
                       const mail = results[0].email;
                       const token = jwt.sign({ mail }, 'secreto', { expiresIn: '1h' });
                       res.cookie('token', token);
-                      res.json({ Status: "success" });
+                      res.json({ Status: "success"});
                     } else {
                       res.json({ Message: "Contraseña incorrecta" });
                     }

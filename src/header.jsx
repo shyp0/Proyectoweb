@@ -13,12 +13,15 @@ function NavScrollExample() {
   const navigate = useNavigate();
   const [user, setUser] = useState('');
   const [auth, setAuth] = useState('');
+  const [tipo, setTipo] = useState('');
   const [message, setMessage] = useState('');
   // const [message,setMessage]= useState('');
   axios.defaults.withCredentials = true;
+
   useEffect(() => {
     axios.get('http://localhost:3000')
       .then(res => {
+        console.log(res.data);
         if (res.data.Status === "success") {
           setAuth(true);
           setUser(res.data.email);
@@ -71,19 +74,22 @@ function NavScrollExample() {
             {
               auth ?
                 <div>
-                  <h3>Cuenta iniciada</h3>
+                  <h5>Cuenta iniciada</h5>
+                  <h5>{user}</h5>
                   <Button onClick={handleLogout}>Cerrar sesión</Button>
                 </div>
                 :
                 <div>
-                  <h3>{user}Cuenta</h3>
+                  <h3>Cuenta</h3>
                   <Link to="/Acceso">Iniciar sesión</Link>
                 </div>
           }
             </NavDropdown.Item>
             <NavDropdown.Item href="/registro">Crear cuenta</NavDropdown.Item>
             <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>
-            <NavDropdown.Item href="/eliminarreceta">Eliminar Receta</NavDropdown.Item>
+            {tipo !== 'usuario' && (
+                <NavDropdown.Item href="/eliminarreceta">Eliminar Receta</NavDropdown.Item>
+            )}
             <NavDropdown.Item href="/comersaludable">¿Por qué comer sano?</NavDropdown.Item>
           </NavDropdown>
           
