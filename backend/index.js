@@ -20,7 +20,7 @@ const PORT = 3000;
 app.use(express.json());
 app.use(cors({
     origin:["http://localhost:5173"],
-    methods: ["POST","GET","PUT"],
+    methods: ["POST","GET","PUT","DELETE"],
     credentials:true
 }));
 
@@ -209,6 +209,7 @@ app.put("/registro",(req, res) => {
     });
 
 });
+
 app.post("/validar",jsonParser,(req, res) => {
     console.log("valor de req.body: ", req.body);
     let email=req.body.email;

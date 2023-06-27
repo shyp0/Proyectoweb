@@ -18,6 +18,7 @@ import PublicarReceta from './pages/PublicarReceta';
 import Sobrenosotros from './pages/Sobrenosotros';
 import ComerSaludable from './pages/ComerSaludable';
 import DetalleReceta from './pages/DetalleReceta';
+import EliminarReceta from './pages/EliminarReceta';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
@@ -34,6 +35,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                     <Route path="/sobrenosotros" element={<Sobrenosotros />} />
                     <Route path="/comersaludable" element={<ComerSaludable />} />
                     <Route path="/detallereceta" element={<DetalleReceta />} />
+                    <Route path="/eliminarreceta" element={<EliminarReceta />} />
         	</Routes>
            
           </BrowserRouter>

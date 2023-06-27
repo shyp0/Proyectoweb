@@ -4,10 +4,51 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
 function NavScrollExample() {
-  
+
+  const navigate = useNavigate();
+  const [user, setUser] = useState('');
+  const [auth, setAuth] = useState('');
+  const [message, setMessage] = useState('');
+  // const [message,setMessage]= useState('');
+  axios.defaults.withCredentials = true;
+  useEffect(() => {
+    axios.get('http://localhost:3000')
+      .then(res => {
+        if (res.data.Status === "success") {
+          setAuth(true);
+          setUser(res.data.email);
+        } else {
+          setAuth(false);
+          setMessage(res.data.Message);
+          // navigate('/Acceso'); // Reemplaza '/some-route' por la ruta a la que deseas navegar
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [navigate]);
+  const handleLogout = () => {
+    axios.get('http://localhost:3000/logout')
+      .then(res => {
+        if (res.data.Status === "success") {
+          location.reload(true);
+        } else {
+          console.log("error")
+        }
+
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
+    <div>
     <Navbar bg="lg" expand="lg">
       <Container fluid>
         <Navbar.Brand href="/"><img class="logo" src="src/assets/Logo.png"></img></Navbar.Brand>
@@ -19,19 +60,33 @@ function NavScrollExample() {
             navbarScroll
           >
             <Nav.Link href="/">Inicio</Nav.Link>
-            <Nav.Link href="/"></Nav.Link>
-            <NavDropdown title="Recetas" id="navbarScrollingDropdown">
-              <NavDropdown.Item href="#action3">Nivel fácil</NavDropdown.Item>
-              <NavDropdown.Item href="#action4">Nivel medio</NavDropdown.Item>
-              <NavDropdown.Item href="#action5">Nivel difícil</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/mostrarrecetas">
-                Ver todas las recetas
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Nav.Link href="/mostrarrecetas">Recetas</Nav.Link>
             <Nav.Link href="/dietas">Dietas</Nav.Link>
             <Nav.Link href="/sobrenosotros">Sobre nosotros</Nav.Link>
           </Nav>
+
+          <img class="person" src="src/assets/person.png"></img>
+          <NavDropdown id="navbarScrollingDropdown">
+            <NavDropdown.Item href="/acceso">
+            {
+              auth ?
+                <div>
+                  <h3>Cuenta iniciada</h3>
+                  <Button onClick={handleLogout}>Cerrar sesión</Button>
+                </div>
+                :
+                <div>
+                  <h3>{user}Cuenta</h3>
+                  <Link to="/Acceso">Iniciar sesión</Link>
+                </div>
+          }
+            </NavDropdown.Item>
+            <NavDropdown.Item href="/registro">Crear cuenta</NavDropdown.Item>
+            <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>
+            <NavDropdown.Item href="/eliminarreceta">Eliminar Receta</NavDropdown.Item>
+            <NavDropdown.Item href="/comersaludable">¿Por qué comer sano?</NavDropdown.Item>
+          </NavDropdown>
+          
           <Form className="d-flex">
             <Form.Control
               type="search"
@@ -42,17 +97,10 @@ function NavScrollExample() {
             <Button variant="outline-success">Buscar</Button>
           </Form>
 
-          <img class="person" src="src/assets/person.png"></img>
-          <NavDropdown id="navbarScrollingDropdown" styles={{display:"end"}}>
-              <NavDropdown.Item href="/acceso">Acceder</NavDropdown.Item>
-              <NavDropdown.Item href="/registro">Crear cuenta</NavDropdown.Item>
-              <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>
-              <NavDropdown.Item href="/comersaludable">¿Por qué comer sano?</NavDropdown.Item>
-          </NavDropdown>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    </div>
   );
 }
 
