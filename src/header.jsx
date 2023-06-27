@@ -25,6 +25,7 @@ function NavScrollExample() {
         if (res.data.Status === "success") {
           setAuth(true);
           setUser(res.data.email);
+          setTipo(res.data.tipo);
         } else {
           setAuth(false);
           setMessage(res.data.Message);
@@ -86,8 +87,10 @@ function NavScrollExample() {
           }
             </NavDropdown.Item>
             <NavDropdown.Item href="/registro">Crear cuenta</NavDropdown.Item>
-            <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>
-            {tipo !== 'usuario' && (
+            {tipo === 'usuario' && (
+                <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>
+            )}
+            {tipo === 'admin' && (
                 <NavDropdown.Item href="/eliminarreceta">Eliminar Receta</NavDropdown.Item>
             )}
             <NavDropdown.Item href="/comersaludable">¿Por qué comer sano?</NavDropdown.Item>

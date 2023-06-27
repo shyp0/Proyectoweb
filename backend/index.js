@@ -168,6 +168,7 @@ const verifyUser = (req,res,next)=>{
                 return res.json({Message: "Autentication error"})
             }else{
                 req.mail=decoded.mail;
+                req.tipo=decoded.tipo;
                 next();
             }
         })
@@ -177,6 +178,7 @@ app.get('/', verifyUser,(req,res) => {
     return res.json({
         Status:"success",
         email:req.mail,
+        tipo:req.tipo,
     }); //
 })
 
@@ -237,7 +239,8 @@ app.post("/validar",jsonParser,(req, res) => {
           
                     if (match) {
                       const mail = results[0].email;
-                      const token = jwt.sign({ mail }, 'secreto', { expiresIn: '1h' });
+                      const tipo = results[0].tipo;
+                      const token = jwt.sign({ mail, tipo }, 'secreto', { expiresIn: '1h' });
                       res.cookie('token', token);
                       res.json({ Status: "success"});
                     } else {
