@@ -55,17 +55,18 @@ const Formulario = () => {
     const newUser = {
       nombre: nombre,
       email: email,
-      apellido: [apellido],
-      contrasena: [contrasena],
+      apellido: apellido,
+      contrasena: contrasena,
       /* falta guardar la imagen de la receta */
     };
+    console.log(newUser);
   
     try {
       const response = await axios.put(url, newUser);
       console.log('Usuario guardado con éxito:', response.data);
       alert('¡Los datos del usuario se han guardado correctamente!')
     } catch (error) {
-      console.error('Error al guardar la receta:', error);
+      console.error('Error al guardar el usuario:', error);
     }
   };
 

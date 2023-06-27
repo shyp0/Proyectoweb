@@ -1,19 +1,17 @@
 // const express = require("express");
 import express from 'express'
-// const mysql = require("mysql");
+
 import mysql from 'mysql'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-//const bcrypt = require("bcrypt");
-// const cors = require("cors");
-// const bodyParser = require('body-parser');
+
 var jsonParser = bodyParser.json();
 import jwt from 'jsonwebtoken'
-import session from 'express-session'
-// const jwt = require('jsonwebtoken');
-// const session = require("express-session");
-// const cookieParser = require("cookie-parser");
+import bcrypt from 'bcrypt'
+const saltRounds = 10;
+
 import cookieParser from 'cookie-parser'
+import { hash } from 'bcrypt';
 
 
 const app = express();
@@ -22,20 +20,23 @@ const PORT = 3000;
 app.use(express.json());
 app.use(cors({
     origin:["http://localhost:5173"],
-    methods: ["POST","GET"],
+    methods: ["POST","GET","PUT"],
     credentials:true
 }));
+
 app.use(cookieParser());
+
 app.use(bodyParser.json());
-app.use(session({
-    secret: 'secret',
-    resave:false,
-    saveUnitialized:false,
-    cookie:{
-        secure:false,
-        maxAge:1000 *60 *60 *24
-    }
-}))
+
+// app.use(session({
+//     secret: 'secret',
+//     resave:false,
+//     saveUnitialized:false,
+//     cookie:{
+//         secure:false,
+//         maxAge:1000 *60 *60 *24
+//     }
+// }))
 const connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -149,28 +150,53 @@ app.put("/agregarReceta",(req, res) => {
 
 });
 
-app.get('/', (req,res) => {
-    if(req.session.email){
-        return res.json({valid:true,email:req.session.email})
-    }
-    else{
-        return res.json({valid:false}) 
-    }
+
+
+app.get('/logout', (req,res) => {
+    res.clearCookie('token');
+    return res.json({Message: "Autentication error"})
 })
+
+const verifyUser = (req,res,next)=>{
+    const token = req.cookies.token;
+    if(!token){
+        return res.json({Message: "we need a token"})
+    }else{
+        jwt.verify(token, "secreto", (error, decoded)=>{
+            if(error){
+                return res.json({Message: "Autentication error"})
+            }else{
+                req.email=decoded.email;
+                next();
+            }
+        })
+    }
+}
+app.get('/', verifyUser,(req,res) => {
+    return res.json({Status:"success", email:req.email})
+})
+
 /* se inserta una cuenta en la base de datos */
 app.put("/registro",(req, res) => {
+
     console.log("valor de req.body: ", req.body);
     let nombre=req.body.nombre;
     let apellido=req.body.apellido;
     let email=req.body.email;
     let contrasena=req.body.contrasena;
-
-    connection.query("insert into usuarios (nombre, apellido, email, contrasena) VALUES (?,?,?,?)",
-    [nombre, apellido, email, contrasena], (error, results) => {
-        if(error){
+    bcrypt.hash(contrasena, saltRounds, (error, hash) => {
+        console.log(contrasena);
+        if (error) {
             console.error(error);
-            res.status(500).send("Error insertando en el server :(");
+            return res.json({ Error: "Error al encriptar la contraseña" });
         }
+
+        connection.query("insert into usuarios (nombre, apellido, email, contrasena) VALUES (?,?,?,?)",
+        [nombre, apellido, email, hash], (error, results) => {
+            if(error){
+                console.error(error);
+                res.status(500).send("Error insertando en el server :(");
+            }
         else{
             const response = {
                 status: 'Exito',
@@ -179,7 +205,8 @@ app.put("/registro",(req, res) => {
             }
             res.status(200).json(response);
         }
-    })
+    });
+    });
 
 });
 app.post("/validar",jsonParser,(req, res) => {
@@ -187,7 +214,7 @@ app.post("/validar",jsonParser,(req, res) => {
     let email=req.body.email;
     let contrasena=req.body.contrasena;
     
-    connection.query("select * from usuarios where email=? and contrasena =?", [email,contrasena], function(error, results) {
+    connection.query("select * from usuarios where email=?", [email,contrasena], function(error, results) {
         if(error){
             console.error(error);
             res.status(500).send({ mensaje: "Error en la consulta", resultados: [] });
@@ -195,12 +222,29 @@ app.post("/validar",jsonParser,(req, res) => {
         }
         else{
             if (results.length > 0) {
-                req.session.email = results[0].email
-                console.log(req.session.email);
-                const token = jwt.sign({ email: email }, 'secreto', { expiresIn: '1h' });
-                res.send({ mensaje: true, resultados: results, token: token });
+                const hash = results[0].contrasena;
+                bcrypt.compare(contrasena, hash, function (err, match) {
+                    if (err) {
+                      console.error(err);
+                      res.status(500).send({ mensaje: "Error al comparar contraseñas", resultados: [] });
+                      return;
+                    }
+          
+                    if (match) {
+                      const mail = results[0].email;
+                      const token = jwt.sign({ mail }, 'secreto', { expiresIn: '1h' });
+                      res.cookie('token', token);
+                      res.json({ Status: "success" });
+                    } else {
+                      res.json({ Message: "Contraseña incorrecta" });
+                    }
+                });
+                // console.log(req.session.email);
+                // const token = jwt.sign({ mail }, 'secreto', { expiresIn: '1h' });
+                // res.cookie('token',token);
+                // res.json({Status: "success"})
             } else {
-              res.send({ mensaje: false, resultados: [] });
+                res.json({Message: "no records"})
             }
         }
     })

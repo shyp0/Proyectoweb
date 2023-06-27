@@ -17,8 +17,8 @@ const Acceso=() => {
     useEffect(() => {
       axios.get('http://localhost:3000')
           .then(res => {
-              if (res.data.valid) {
-                  navigate('/');
+              if (res.data.Status==="success") {
+                  navigate('/')
                   
               }else{
                   navigate('/Acceso'); // Reemplaza '/some-route' por la ruta a la que deseas navegar
@@ -27,7 +27,7 @@ const Acceso=() => {
           .catch(error => {
               console.log(error);
           });
-    }, [navigate]);
+  }, [navigate]);
     const validarFormulario = (e) => {
         e.preventDefault();
         
@@ -51,7 +51,7 @@ const Acceso=() => {
             .then(response => {
               const data = response.data;
 
-              if (data.mensaje === true) {
+              if (data.Status==="success") {
                 // Las credenciales son válidas
                 alert('Credenciales válidas');
                 navigate('/');
