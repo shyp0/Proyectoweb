@@ -110,8 +110,10 @@ function NavScrollExample() {
                 </div>
           }
             </NavDropdown.Item>
+            {auth === false && (
             <NavDropdown.Item href="/registro">Crear cuenta</NavDropdown.Item>
-            {tipo === 'usuario' && (
+            )}
+            {auth === true && tipo !== 'admin' && (
                 <NavDropdown.Item href="/publicarreceta">Publicar Receta</NavDropdown.Item>
             )}
             {tipo === 'admin' && (

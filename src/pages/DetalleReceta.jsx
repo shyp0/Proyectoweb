@@ -31,7 +31,7 @@ function DetalleReceta() {
     }, [param]);
     
     if (recetaEncontrada) {
-      console.log(recetaEncontrada.imagen);
+      console.log(recetaEncontrada.ingredientes);
         return (
             <div style={{display: "flex", justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
 
@@ -48,7 +48,7 @@ function DetalleReceta() {
                     <div className="row g-0">
                         <div className="col-md-12" style={{display: "flex", justifyContent:"center",alignItems:"center",flexDirection:"column"}}>
                           
-                            <img src={"http://localhost:3000/recetas/"+recetaEncontrada.imagen} alt="" />
+                            <img src={"http://localhost:3000/recetas/"+recetaEncontrada.imagen} alt="" className="card-img-top"/>
                         </div>
                         <div className="col-md-12" style={{ textAlign: "center" }}>
                             <div className="card-body">
