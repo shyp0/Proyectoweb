@@ -51,6 +51,30 @@ function NavScrollExample() {
       });
   }
 
+  const [nombre_receta, setNombre_receta] = useState('');
+  const [receta_encontrada, setReceta_encontrada] = useState('');
+
+  useEffect(() => {
+    const fetchReceta = async () => {
+      const response = await fetch("http://localhost:3000/buscarReceta", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nombre: nombre_receta }),
+      });
+
+      const data = await response.json();
+      setReceta_encontrada(data[0]);
+      console.log(data);
+      
+    };
+
+    if (nombre_receta) {
+      fetchReceta();
+    }
+  }, [nombre_receta]);
+
   return (
     <div>
     <Navbar bg="lg" expand="lg">
@@ -102,8 +126,9 @@ function NavScrollExample() {
               placeholder="Buscar"
               className="me-2"
               aria-label="Search"
+              onChange={(e)=> setNombre_receta(e.target.value)}
             />
-            <Button variant="outline-success">Buscar</Button>
+            <Button variant="outline-success" href={`/detallereceta?id=${receta_encontrada.ID}`}>Buscar</Button>
           </Form>
 
         </Navbar.Collapse>

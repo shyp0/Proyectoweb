@@ -75,20 +75,16 @@ app.get('/obtenerRecetas', (req,res) => {
 app.post("/buscarReceta",(req, res) => {
     console.log("valor de req.body: ", req.body);
     let nombre=req.body.nombre;
+    console.log("nombre", nombre);
 
     connection.query("select * from recetas where nombre=?", nombre, (error, results) => {
         if(error){
             console.error(error);
-            res.status(500).send("Error insertando en el server :(");
+            res.status(500).send("Error buscando en el server :(");
         }
         else{
             if(results[0]){
-                const response = {
-                    status: 'Exito',
-                    message: 'Se encontraron los datos',
-                    data: results
-                }
-                res.status(200).json(response);
+                res.status(200).json(results);
             }
             else{
                 const response = {
@@ -109,7 +105,7 @@ app.post("/buscarReceta",(req, res) => {
     connection.query("select * from recetas where ID=?", id, (error, results) => {
         if(error){
             console.error(error);
-            res.status(500).send("Error insertando en el server :(");
+            res.status(500).send("Error buscando en el server :(");
         }
         else{
             if(results[0]){
