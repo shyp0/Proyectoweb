@@ -3,18 +3,14 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import '../styles.css';
 import axios from 'axios'
-
+import { useNavigate } from 'react-router-dom';
 const Formulariorecetas = () => {
-//   const formu=document.getElementById("publicarreceta");
-// // Formulariorecetas.addEventListener("submit",form);
-// formu.addEventListener("submit",form);
-  
+  const navigate = useNavigate();
   const [nombre_receta, setNombre_receta] = useState('');
   const [descripcion_receta, setDescripcion_receta] = useState('');
   const [ingredientes, setIngredientes] = useState('');
   const [preparacion, setPreparacion] = useState('');
   const [imagen,setImagen] = useState('');
-  const [dificultad,setDificultad] = useState('');
   const [errors, setErrors] = useState({});
 
   const validarFormulariorecetas = (e) => {
@@ -43,9 +39,6 @@ const Formulariorecetas = () => {
     } else if (preparacion.length > 1000) {
       errores.preparacion = 'La descripcion de la preparacion debe tener menos de 1000 caracteres';
     }
-    if (!dificultad) {
-        errores.dificultad = 'Debes seleccionar al menos un nivel de receta';
-    }
 
     if (!imagen) {
         errores.files = 'Debes registrar almenos 1 archivo';
@@ -62,20 +55,22 @@ const Formulariorecetas = () => {
     // e.preventDefault();
     const guardarDatos = async () => {
     const url = 'http://localhost:3000/agregarReceta'; // Reemplaza con la URL correcta de tu backend
-
-    const newReceta = {
-      nombre: nombre_receta,
-      descripcion: descripcion_receta,
-      ingredientes: [ingredientes],
-      preparacion: [preparacion],
-      imagen_url: imagen,
-      /* falta guardar la imagen de la receta */
-    };
-  
+    const formData = new FormData();
+    formData.append('imagen', imagen); 
+    formData.append('nombre',nombre_receta);
+    formData.append('descripcion',descripcion_receta);
+    formData.append('ingredientes',ingredientes);
+    formData.append('preparacion',preparacion);
+    
     try {
-      const response = await axios.put(url, newReceta);
+      const response = await axios.put(url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Establece el encabezado adecuado para el envío de archivos
+      },
+    });
       console.log('Receta guardada con éxito:', response.data);
       alert('¡Los datos de la receta se han guardado correctamente!')
+      navigate('/');
     } catch (error) {
       console.error('Error al guardar la receta:', error);
     }
@@ -109,20 +104,17 @@ const Formulariorecetas = () => {
               <Form.Control as="textarea" className={errors.preparacion ? 'error' : 'success'} rows={3} placeholder="Ingrese la elaboración paso a paso de la receta" id="preparacion_receta" onChange={(e)=> setPreparacion(e.target.value)}/>
               {errors.preparacion && <span>{errors.preparacion}</span>}
           </Form.Group>
-          <Form.Group className="mb-3">
-              <Form.Label>Nivel de receta</Form.Label>                
-                  <Form.Select value={dificultad} className={errors.dificultad ? 'error' : ''} onChange={(e)=> setDificultad(e.target.value)}>
-                      <option value=""> seleccione nivel de receta</option>
-                      <option value="facil">Nivel fácil</option>
-                      <option value="medio">Nivel medio</option>
-                      <option value="dificil">Nivel difícil</option>
-                  </Form.Select>
-                  {errors.dificultad && <span>{errors.dificultad}</span>}
-          </Form.Group>
           <Form.Group controlId="formFileMultiple" className="mb-3">
               <Form.Label>Selecione una(s) foto(s) de la receta</Form.Label>
-              <Form.Control type="file" className={errors.files ? 'error' : ''} multiple onChange={(e)=> setImagen(e.target.value)}/>
-              {errors.imagen && <span>{errors.imagen}</span>}
+              <Form.Control type="file" className={errors.files ? 'error' : ''}multiple onChange={(e) => {
+                  const files = e.target.files;
+                  if (files && files.length > 0) {
+                    // Aquí puedes agregar lógica adicional para manejar múltiples archivos si es necesario
+                    const file = files[0];
+                    setImagen(file);
+                  }
+                }}
+/>
           </Form.Group>
           <Button variant="success" className="submit" onClick={validarFormulariorecetas}>Publicar receta</Button>{' '}
       </Form>

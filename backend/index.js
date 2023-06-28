@@ -5,7 +5,7 @@ import session from 'express-session'
 import mysql from 'mysql'
 import cors from 'cors'
 import bodyParser from 'body-parser'
-
+import multer from 'multer'
 var jsonParser = bodyParser.json();
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
@@ -135,7 +135,7 @@ app.delete("/eliminarReceta",(req, res) => {
         console.log(id)
         let nombre=results[0].nombre;
         console.log(nombre)
-        connection.query("delete from recetas where id=?",id, (error, result) => {
+        connection.query("delete from recetas where id=?",id, (error, results) => {
             if (error){
                 console.error(error);
                 res.status(500).send("Error eliminando en el server :(");
@@ -152,18 +152,30 @@ app.delete("/eliminarReceta",(req, res) => {
     });
 
 });
+app.use(express.static('uploads'));
+const storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        cb(null,'uploads/recetas/');
+    },
+    filename:(req,file,cb)=>{
+        cb(null,Date.now()+ '-' + file.originalname)
+    },
+});
 
+const upload = multer({storage})
 /* se inserta una receta en la base de datos */
-app.put("/agregarReceta",(req, res) => {
+app.put("/agregarReceta", upload.single('imagen'),(req, res) => {
     console.log("valor de req.body: ", req.body);
+    if(req.file){
+        console.log("archivo recibido:", req.file)
+    }
     let nombre=req.body.nombre;
     let descripcion=req.body.descripcion;
     let ingredientes=req.body.ingredientes;
     let preparacion=req.body.preparacion;
-    let imagenUrl = req.body.imagen_url;
 
-    connection.query("insert into recetas (nombre, descripcion, ingredientes, preparacion, imagen_url) VALUES (?,?,?,?,?)",
-    [nombre, descripcion, ingredientes, preparacion, imagenUrl], (error, results) => {
+    connection.query("insert into recetas (nombre, descripcion, ingredientes, preparacion, imagen) VALUES (?,?,?,?,?)",
+    [nombre, descripcion, ingredientes, preparacion, req.file.filename], (error, results) => {
         if(error){
             console.error(error);
             res.status(500).send("Error insertando en el server :(");
@@ -174,7 +186,7 @@ app.put("/agregarReceta",(req, res) => {
                 message: 'Se insertaron los datos bien',
                 data: results
             }
-            res.status(200).json(response);
+            res.status(200).send(response);
         }
     })
 
@@ -212,38 +224,53 @@ app.get('/', verifyUser,(req,res) => {
 })
 
 /* se inserta una cuenta en la base de datos */
-app.put("/registro",(req, res) => {
-
+app.put("/registro", (req, res) => {
     console.log("valor de req.body: ", req.body);
-    let nombre=req.body.nombre;
-    let apellido=req.body.apellido;
-    let email=req.body.email;
-    let contrasena=req.body.contrasena;
-    bcrypt.hash(contrasena, saltRounds, (error, hash) => {
-        console.log(contrasena);
+    let nombre = req.body.nombre;
+    let apellido = req.body.apellido;
+    let email = req.body.email;
+    let contrasena = req.body.contrasena;
+  
+    // Verificar si el correo electrónico ya está registrado
+    connection.query(
+      "SELECT * FROM usuarios WHERE email = ?",[email],(error, results) => {
         if (error) {
+          console.error(error);
+          return res.status(500).send("Error en el servidor :(");
+        }
+
+        if (results.length > 0) {
+          // El correo electrónico ya está registrado
+          return res.status(400).json({ error: "El correo electrónico ya está registrado" });
+        }
+        // El correo electrónico no está registrado, proceder con la inserción
+        bcrypt.hash(contrasena, saltRounds, (error, hash) => {
+          console.log(contrasena);
+          if (error) {
             console.error(error);
-            return res.json({ Error: "Error al encriptar la contraseña" });
-        }
-
-        connection.query("insert into usuarios (nombre, apellido, email, contrasena) VALUES (?,?,?,?)",
-        [nombre, apellido, email, hash], (error, results) => {
-            if(error){
+            return res.json({ error: "Error al encriptar la contraseña" });
+          }
+          connection.query(
+            "INSERT INTO usuarios (nombre, apellido, email, contrasena) VALUES (?,?,?,?)",
+            [nombre, apellido, email, hash],
+            (error, results) => {
+              if (error) {
                 console.error(error);
-                res.status(500).send("Error insertando en el server :(");
+                return res.status(500).send("Error insertando en el servidor :(");
+              }
+              const response = {
+                status: "Éxito",
+                message: "Se insertaron los datos correctamente",
+                data: results,
+              };
+              res.status(200).json(response);
             }
-        else{
-            const response = {
-                status: 'Exito',
-                message: 'Se insertaron los datos bien',
-                data: results
-            }
-            res.status(200).json(response);
-        }
-    });
-    });
-
-});
+          );
+        });
+      }
+    );
+  });
+  
 
 app.post("/validar",jsonParser,(req, res) => {
     console.log("valor de req.body: ", req.body);

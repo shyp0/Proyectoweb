@@ -19,7 +19,6 @@ const Acceso=() => {
           .then(res => {
               if (res.data.Status==="success") {
                   navigate('/')
-                  
               }else{
                   navigate('/Acceso'); // Reemplaza '/some-route' por la ruta a la que deseas navegar
               }
@@ -67,15 +66,7 @@ const Acceso=() => {
         }
         
     }; 
-    // useEffect(() => {
-    //     if (isLoggedIn) {
-    //       history.push('/'); // Redirigir a la página principal (Home)
-    //     }
-    //   }, [isLoggedIn, history]);
-        
- 
-      
-    //   jsonData();
+    
     return (
         <div className="container-acceder">
             <div className="formulario">

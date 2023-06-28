@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import '../styles.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Formulario = () => {
+  const navigate = useNavigate();
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [confirmarContrasena,setConfirmarContrasena] = useState('');
   const [errors, setErrors] = useState({});
+  const formRef = useRef(null);
 
   const validarFormulario = () => {
     const errores = {};
@@ -63,9 +66,15 @@ const Formulario = () => {
   
     try {
       const response = await axios.put(url, newUser);
-      console.log('Usuario guardado con éxito:', response.data);
-      alert('¡Los datos del usuario se han guardado correctamente!')
+      if(response.error !="El correo electrónico ya está registrado"){
+        console.log('Usuario guardado con éxito:', response.data);
+        alert('¡Los datos del usuario se han guardado correctamente!')
+        navigate('/Acceso')
+      } 
     } catch (error) {
+      alert('Usuario ya registrado')
+        formRef.current.reset();
+      
       console.error('Error al guardar el usuario:', error);
     }
   };
@@ -73,7 +82,7 @@ const Formulario = () => {
   return (
     <div className="container-registrar">
         <div className="formulario2">
-            <Form name="registro" id="registro">
+            <Form name="registro" id="registro" ref={formRef}>
                 <h5>Crear cuenta</h5>
                 <Form.Group className="mb-1" controlId="exampleForm.ControlInput1">
                     <Form.Label></Form.Label>
