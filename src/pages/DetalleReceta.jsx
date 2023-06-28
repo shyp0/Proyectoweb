@@ -17,7 +17,7 @@ function DetalleReceta() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ id: 10 }),
+          body: JSON.stringify({ id: param }),
         });
   
         const data = await response.json();
