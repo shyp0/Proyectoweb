@@ -23,7 +23,7 @@ function MostrarRecetas() {
       </div>
 
       {recetas.map(receta => (
-        <div key={receta.id}>
+        <div key={receta.ID}>
           <div className="row row-cols-1 row-cols-md-2 g-4" style={{paddingTop: "none", padding: "40px",display: "flex", justifyContent:"center",alignItems:"center",flexDirection:"column"}} >
             <div className="col">
               <div className="card">
@@ -33,7 +33,8 @@ function MostrarRecetas() {
                   <p className="card-text" style={{textAlign: "center"}}>{receta.descripcion}</p>
                 </div>
                 <div className="d-grid gap-2 d-md-block" style={{textAlign: "center"}}>
-                  <Button variant="success" href={`/detallereceta?id=${receta.id}`}>Ver receta</Button>
+                  {receta.ID}
+                  <Button variant="success" href={`/detallereceta?id=${receta.ID}`}>Ver receta</Button>
                 </div>
                 <br/>
               </div>

@@ -82,12 +82,45 @@ app.post("/buscarReceta",(req, res) => {
             res.status(500).send("Error insertando en el server :(");
         }
         else{
-            const response = {
-                status: 'Exito',
-                message: 'Se encontraron los datos',
-                data: results
+            if(results[0]){
+                const response = {
+                    status: 'Exito',
+                    message: 'Se encontraron los datos',
+                    data: results
+                }
+                res.status(200).json(response);
             }
-            res.status(200).json(response);
+            else{
+                const response = {
+                    message: 'No se encontraron los datos',
+                }
+                res.status(200).json(response);
+            }
+        }
+    })
+});
+
+ /* se busca una receta específica de la base de datos de acuerdo a la id */
+ app.post("/encontrarReceta",(req, res) => {
+    console.log("valor de req.body: ", req.body);
+    let id=req.body.id;
+    console.log("id", id);
+
+    connection.query("select * from recetas where ID=?", id, (error, results) => {
+        if(error){
+            console.error(error);
+            res.status(500).send("Error insertando en el server :(");
+        }
+        else{
+            if(results[0]){
+                res.status(200).json(results);
+            }
+            else{
+                const response = {
+                    message: 'No se encontraron los datos',
+                }
+                res.status(200).json(response);
+            }
         }
     })
 });
