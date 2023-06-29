@@ -128,7 +128,7 @@ const Formulariorecetas = () => {
             onChange={onChange}
           />
         </Form.Group>
-        <Button variant="success" className="submit" onClick={validarFormulariorecetas} >Publicar receta</Button>{' '}
+        <Button variant="success" className="submit" disabled={!verificar} onClick={validarFormulariorecetas} >Publicar receta</Button>{' '}
       </Form>
     </div>
   );

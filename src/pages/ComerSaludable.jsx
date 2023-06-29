@@ -54,7 +54,7 @@ function ComerSaludable() {
                     <li>Apoya el desarrollo del cerebro</li>
                     <li>Apoya el crecimiento saludable</li>
                     <li>Ayuda al sistema digestivo a funcionar</li>
-                    <li>Paso 7. Reparte los ingredientes en los platos y aliña con la vinagreta.</li>
+                    <li>Reparte los ingredientes en los platos y aliña con la vinagreta.</li>
                 </p>
 
                 <br></br>
